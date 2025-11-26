@@ -60,7 +60,7 @@ const App = () => {
       }
   ]
 }
-const [counter, setCounter] = useState(5)
+const [counter, setCounter] = useState(0)
 
   // // variable definition style
   // return (
