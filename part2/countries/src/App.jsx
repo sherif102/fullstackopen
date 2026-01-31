@@ -8,7 +8,6 @@ function App() {
   const [countries, setCountries] = useState([])
   const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
-  // const [loading, setLoading] = useState('loading')
   const searchNotification = ['Too many matches, specify another filter', '']
   const [notification, setNotification] = useState(searchNotification[1])
   const [country, setCountry] = useState(null)
@@ -18,26 +17,16 @@ function App() {
     axios.get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
     .then(response => {
 
-      // console.log(response.data[0])
-
       setCountries(response.data.map(data =>  ({
         name : data.name.common,
         capital : data.capital ? data.capital[0] : [],
         area : data.area,
         languages : data.languages,
         flags : data.flags.png,
-        // lat : data.latlng[0],
-        // lon : data.latlng[1],
-        // weather_api : `https://api.openweathermap.org/data/3.0/onecall?lat=${data.latlng[0]}&lon=${data.latlng[1]}&exclude=${[]}&appid=`
       })))
-
-      // setLoading('loaded')
       console.log('loaded')
-      // console.log(weather_key)
     })
   }, [])
-
-  // console.log(countries[0])
 
   const handleSearch = (event) => {
     const value = event.target.value
@@ -78,13 +67,6 @@ function App() {
       </div>
 
       <CountryView style={styleT} country={country} weather_key={weather_key}/>
-
-      {/* <br/><br/>
-      <h2>All countries</h2>
-      {loading === 'loading' ? <p>loading...</p> :
-      <pre>
-        {countries.map(ct => ct +'\n')}
-      </pre> } */}
     </Fragment>
   )
 }
@@ -138,9 +120,5 @@ const CountryView = ({country, style, weather_key}) => {
 }
 
 export default App
-
-// https://api.openweathermap.org/data/3.0/onecall?lat=10&lon=8&exclude=&appid=9697a2e3bd442f17c2eecc240b2b5f7e
-
-// https://api.weatherapi.com/v1/current.json?key=3c8fda791d0e4d1aa1612330263101&q=London&aqi=no
 
 // const weather_api_with_key = `https://api.weatherapi.com/v1/current.json?key=${3c8fda791d0e4d1aa1612330263101}&q=${state}&aqi=no`
