@@ -1,9 +1,12 @@
 import axios from "axios"
 
 export const postContact = (url, newRecord, persons, setPersons) => {
-  axios.post(url, newRecord)
+  axios.post(`${url}/api/persons`, newRecord)
   .then(response => {
-    setPersons(persons.concat(response.data))
+    let nR = newRecord
+    nR.id = response.data
+    console.log(response.data)
+    setPersons(persons.concat(nR))
   })
 }
 export const updateContact = (url, person, newRecord, persons, setPersons) => {
@@ -19,7 +22,7 @@ export const getContact = (url, setPersons) => {
 }
 
 export const deleteContact = (url, person, persons, setPersons, setCName, setNotification) => {
-  const endpoint = `${url}/${person.id}`
+  const endpoint = `${url}/api/persons/${person.id}`
   const id = person.id
   axios.delete(endpoint)
   .then(response => {
