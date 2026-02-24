@@ -2,17 +2,20 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
 
 const port = 3001
 
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use(morgan(':method :url :status :res[content-length] - :response-time  ms :body'))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 morgan.token('body', (req, res) => {
   return JSON.stringify(req.body)
 })
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time  ms :body'))
 
 let notes = [
   {
@@ -48,6 +51,13 @@ let notes = [
 // })
 
 app.get('/', (req, res) => {
+  const index = 'dist/index.html'
+  // res.json(notes)
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  // res.sendFile(path.resolve('dist'))
+})
+
+app.get('/api/persons', (req, res) => {
   res.json(notes)
 })
 

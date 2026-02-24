@@ -1,11 +1,15 @@
 import axios from "axios"
 
 export const postContact = (url, newRecord, persons, setPersons) => {
+  if (!newRecord.number) {
+    alert(`${newRecord.name} cannot be saved without Number`)
+    return
+  }
   axios.post(`${url}/api/persons`, newRecord)
   .then(response => {
     let nR = newRecord
     nR.id = response.data
-    console.log(response.data)
+    // console.log(response.data)
     setPersons(persons.concat(nR))
   })
 }
@@ -17,8 +21,16 @@ export const updateContact = (url, person, newRecord, persons, setPersons) => {
   })
 }
 export const getContact = (url, setPersons) => {
-  axios.get(url)
-  .then(response => {setPersons(response.data)})
+  const endpoint = `${url}/api/persons`
+  axios.get(endpoint)
+  .then(response => {
+    // console.log(response.data)
+    if (response.statusText === "OK") {
+      setPersons(response.data)
+    }else setPersons([])
+  }).catch(err => {
+    console.log(err)
+  })
 }
 
 export const deleteContact = (url, person, persons, setPersons, setCName, setNotification) => {
