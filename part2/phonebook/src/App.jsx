@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { getContact, postContact, deleteContact, Delete, updateContact, Notification } from './components/server'
-const baseUrl = 'http://localhost:3001'
+const baseUrl = 'https://phonebook-backend-8b9k.onrender.com'
 
 // const App = () => {
 //   const [persons, setPersons] = useState([]) 
@@ -132,6 +132,10 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
   const save = (event) => {
     event.preventDefault()
     if (newName !== '') {
+      if (!newNumber) {
+        alert(`${newName} cannot be saved without Number`)
+        return
+      }
       const newRecord = {"name": newName, "number": newNumber}
 
       for (let person of persons) {

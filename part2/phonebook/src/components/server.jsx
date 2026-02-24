@@ -24,8 +24,8 @@ export const getContact = (url, setPersons) => {
   const endpoint = `${url}/api/persons`
   axios.get(endpoint)
   .then(response => {
-    // console.log(response.data)
-    if (response.statusText === "OK") {
+    if (response.status === 200) {
+      console.log("Contact fetched")
       setPersons(response.data)
     }else setPersons([])
   }).catch(err => {
