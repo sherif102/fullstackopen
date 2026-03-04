@@ -1,3 +1,0 @@
-# GET http://localhost:3001
-
-GET https://phonebook-backend-8b9k.onrender.com/

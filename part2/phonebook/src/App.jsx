@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { getContact, postContact, deleteContact, Delete, updateContact, Notification } from './components/server'
-const baseUrl = 'https://phonebook-backend-8b9k.onrender.com'
+// const baseUrl = 'https://phonebook-backend-8b9k.onrender.com'
+const baseUrl = 'http://localhost:3001'
 
 // const App = () => {
 //   const [persons, setPersons] = useState([]) 
@@ -143,6 +144,9 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
           if (window.confirm(`${person.name} is already added to phonebook, replace the old number with a new one?`)) {
             updateContact(baseUrl, person, newRecord, persons, setPersons)
 
+            setNewName('')
+            setNewNumber('')
+
             setNotification(`Updated ${newRecord.name}`)
             setTimeout(() => {
               setNotification(null)
@@ -187,8 +191,8 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
 const Persons = ({persons, personDisplay, url, deleteContact, setCName, setPersons, setNotification, Delete}) => {
   return (
     <>
-      {personDisplay.map((person, key=person.id) => 
-          <p key={key}>{person.name} {person.number} <Delete setCName={setCName} deleteContact={deleteContact} url={url} person={person} persons={persons} setPersons={setPersons} setNotification={setNotification}/></p>
+      {personDisplay.map(person => 
+          <p key={person.id}>{person["name"]} {person.number} <Delete setCName={setCName} deleteContact={deleteContact} url={url} person={person} persons={persons} setPersons={setPersons} setNotification={setNotification}/></p>
       )}
     </>
   )

@@ -14,10 +14,22 @@ export const postContact = (url, newRecord, persons, setPersons) => {
   })
 }
 export const updateContact = (url, person, newRecord, persons, setPersons) => {
-  const endpoint = `${url}/${person.id}`
+  const endpoint = `${url}/api/persons/${person.id}`
   axios.put(endpoint, newRecord)
   .then(response => {
-    setPersons(persons.concat(response.data))
+    console.log(response.data)
+    const oldPerson = persons.map(p => {
+      if (p.id === response.data.id) {
+        console.log('inside if map')
+        let np = {
+          name: response.data.name,
+          number: response.data.number,
+          id: response.data.id
+        }
+       return np
+      } else return p
+    })
+    setPersons(oldPerson)
   })
 }
 export const getContact = (url, setPersons) => {
@@ -35,11 +47,10 @@ export const getContact = (url, setPersons) => {
 
 export const deleteContact = (url, person, persons, setPersons, setCName, setNotification) => {
   const endpoint = `${url}/api/persons/${person.id}`
-  const id = person.id
   axios.delete(endpoint)
   .then(response => {
-    if (response.status === 200) {
-      setPersons(persons.filter(person => person.id !== id))
+    if (response.status === 204) {
+      setPersons(persons.filter(p => p.id !== person.id))
       setCName("success")
       
       setNotification(`Deleted  ${person.name}`)
