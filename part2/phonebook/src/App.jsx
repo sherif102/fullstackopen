@@ -99,7 +99,7 @@ const App = () => {
       <Filter persons={persons} setPersonDisplay={setPersonDisplay} setNewFilter={setNewFilter} />
 
       <h3>Add a new</h3>
-      <PersonForm persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} updateContact={updateContact} setNotification={setNotification} />
+      <PersonForm persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} updateContact={updateContact} setCName={setCName} setNotification={setNotification} />
 
       <h2>Numbers</h2>
       <Persons persons={persons} setPersons={setPersons} personDisplay={personDisplay} url={baseUrl} deleteContact={deleteContact} setCName={setCName} setNotification={setNotification} Delete={Delete}/>
@@ -128,7 +128,7 @@ const Filter = ({persons, setPersonDisplay, newFilter, setNewFilter}) => {
   )
 }
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, updateContact, setNotification}) => {
+const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, updateContact, setCName, setNotification}) => {
 
   const save = (event) => {
     event.preventDefault()
@@ -158,7 +158,7 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
           return
         }
       }
-      postContact(baseUrl, newRecord, persons, setPersons)
+      postContact(baseUrl, newRecord, persons, setPersons, setCName, setNotification)
 
       setNotification(`Added ${newRecord.name}`)
       setTimeout(() => {

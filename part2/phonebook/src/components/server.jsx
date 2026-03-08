@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const postContact = (url, newRecord, persons, setPersons) => {
+export const postContact = (url, newRecord, persons, setPersons, setCName, setNotification) => {
   if (!newRecord.number) {
     alert(`${newRecord.name} cannot be saved without Number`)
     return
@@ -11,6 +11,18 @@ export const postContact = (url, newRecord, persons, setPersons) => {
     nR.id = response.data
     // console.log(response.data)
     setPersons(persons.concat(nR))
+  }).catch(error => {
+    console.log(error.response.data.error)
+    console.log(error.response.status)
+    if (error.status === 400) {
+      setCName("error")
+      setNotification(error.response.data.error)
+      setTimeout(() => {
+        setNotification(null)
+        setCName("success")
+      }, 3000)
+    }
+    return
   })
 }
 export const updateContact = (url, person, newRecord, persons, setPersons) => {
@@ -60,7 +72,6 @@ export const deleteContact = (url, person, persons, setPersons, setCName, setNot
     }
   })
   .catch(error => {
-
     if (error.status === 404) {
       setCName("error")
         
