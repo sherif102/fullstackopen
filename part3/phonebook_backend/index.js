@@ -12,7 +12,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'dist')))
 
-morgan.token('body', (req, res) => {
+morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
 
@@ -52,7 +52,6 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time  ms :
 // })
 
 app.get('/', (req, res) => {
-  const index = 'dist/index.html'
   // res.json(notes)
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   // res.sendFile(path.resolve('dist'))
@@ -68,7 +67,7 @@ app.get('/info', (req, res) => {
     const info = `Phonebook has info for ${count} people <br/><br/> ${new Date().toString()}
     `
     res.send(info)
-  }) 
+  })
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
@@ -90,7 +89,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
   let id = req.params.id
   Phone.findByIdAndDelete(id)
     .then(data => {
-      res.status(204).end()
+      res.status(204).JSON({ id: data.id })
     })
     .catch(error => next(error))
 })
@@ -105,7 +104,7 @@ app.put('/api/persons/:id', (req, res, next) => {
         res.json(data)
         data.save().then(res.status(201).end())
       } else {
-        return res.status(404).send({error: 'data not found'})
+        return res.status(404).send({ error: 'data not found' })
       }
     }).catch(error => next(error))
 })
@@ -128,16 +127,16 @@ app.post('/api/persons/', (req, res, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
-    return response.status(400).json({error: 'malformatted id' })
+    return response.status(400).json({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).json({error: error.message})
+    return response.status(400).json({ error: error.message })
   }
   next(error)
 }
@@ -146,5 +145,5 @@ app.use(unknownEndpoint)
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log(`App started on port ${port}`)
+  console.log(`App started on port ${ port }`)
 })

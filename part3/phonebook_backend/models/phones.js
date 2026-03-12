@@ -5,7 +5,7 @@ const url = process.env.MONGODB_URI
 
 console.log(`connecting to ${url}`)
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -30,8 +30,8 @@ const phoneSchema = new mongoose.Schema({
           return false
         } return true
       },
-      message: props => `The minimum length must be 8 and have '-' on the third or fourth index`
-    } 
+      message: props => 'The minimum length must be 8 and have \'-\' on the third or fourth index'
+    }
   }
 })
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { getContact, postContact, deleteContact, Delete, updateContact, Notification } from './components/server'
-// const baseUrl = 'https://phonebook-backend-8b9k.onrender.com'
-const baseUrl = 'http://localhost:3001'
+const baseUrl = 'https://phonebook-backend-8b9k.onrender.com'
+// const baseUrl = 'http://localhost:3001'
 
 // const App = () => {
 //   const [persons, setPersons] = useState([]) 
